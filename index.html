@@ -1,0 +1,753 @@
+<!doctype html>
+<html lang="ru" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aorens — тестовое задание ассистента</title>
+<meta name="description" content="Тестовое задание на должность ассистента руководителя: дизайнеры этикеток, референсы упаковки, контроль задач, деловой ужин, самостоятельность.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* tastemaker: mood elegant/light, seed 7, serif display + sans body, hairlines instead of shadows; contrast matrix passed (text/bg 16.2, primary/on-primary 4.86, accent/bg 4.55) */
+:root{
+  --bg:#faf7ee;--surface:#f0ede4;--surface-2:#e6ddc9;--text:#1e1a11;--muted:#6a6355;
+  --primary:#856f34;--on-primary:#fff;--accent:#237c88;--border:#e0dcd4;--line:#d6d0c4;
+  --danger:#9a3b2a;--ok:#2e6b3f;--hl:#f6e9c6;
+  --serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+  --sans:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --r:14px;--maxw:1040px;
+}
+:root:not([data-theme="light"]){
+  @media (prefers-color-scheme:dark){
+    --bg:#171310;--surface:#211c17;--surface-2:#2b241c;--text:#efe9dc;--muted:#a69d8c;
+    --primary:#c9a24f;--on-primary:#171310;--accent:#6fc2cf;--border:#2f2922;--line:#3a332a;
+    --danger:#e0866f;--ok:#7fcf93;--hl:#3a3120;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#171310;--surface:#211c17;--surface-2:#2b241c;--text:#efe9dc;--muted:#a69d8c;
+  --primary:#c9a24f;--on-primary:#171310;--accent:#6fc2cf;--border:#2f2922;--line:#3a332a;
+  --danger:#e0866f;--ok:#7fcf93;--hl:#3a3120;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.15;margin:0;letter-spacing:-.005em}
+h1{font-size:clamp(38px,6vw,64px)}
+h2{font-size:clamp(30px,4vw,42px)}
+h3{font-size:24px}
+p{margin:0 0 12px}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.muted{color:var(--muted)}
+.small{font-size:14px}
+
+/* nav */
+nav.top{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+nav.top .wrap{display:flex;align-items:center;gap:8px;padding:10px 20px;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+nav.top .wrap::-webkit-scrollbar{display:none}
+nav.top .brand{font-family:var(--serif);font-size:20px;font-weight:700;margin-right:auto;color:var(--text);border:0}
+nav.top a.pill{font-size:13px;padding:6px 12px;border:1px solid var(--border);border-radius:999px;color:var(--text);background:var(--surface)}
+nav.top a.pill.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+nav.top button{font:inherit;font-size:13px;padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:transparent;color:var(--muted);cursor:pointer}
+
+/* hero */
+header.hero{padding:72px 0 48px;border-bottom:1px solid var(--border)}
+header.hero .lede{font-size:19px;max-width:640px;color:var(--muted);margin-top:18px}
+.byline{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:22px;font-size:14px;color:var(--muted)}
+.byline b{color:var(--text);font-weight:600}
+.summary{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:40px}
+.summary a{display:block;border:1px solid var(--border);border-radius:var(--r);padding:14px 14px 12px;background:var(--surface);color:var(--text);min-height:118px}
+.summary a:hover{border-color:var(--primary)}
+.summary .n{font-family:var(--serif);font-size:30px;line-height:1;color:var(--primary);font-weight:700}
+.summary .t{font-weight:600;font-size:14px;margin-top:8px}
+.summary .d{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.4}
+@media (max-width:860px){.summary{grid-template-columns:repeat(2,1fr)}.summary a:last-child{grid-column:span 2}}
+
+/* sections */
+section.task{padding:72px 0 24px;border-bottom:1px solid var(--border)}
+section.task:last-of-type{border-bottom:0}
+.task-head{display:grid;grid-template-columns:72px 1fr;gap:18px;align-items:start;margin-bottom:28px}
+.task-head .num{font-family:var(--serif);font-size:64px;line-height:.9;color:var(--primary);font-weight:700}
+.task-head .brief{color:var(--muted);margin-top:10px;max-width:720px}
+.task-head .brief b{color:var(--text)}
+.grid{display:grid;gap:16px}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g2{grid-template-columns:repeat(2,1fr)}
+@media (max-width:860px){.g3,.g2{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px}
+.card h3{margin-bottom:6px}
+.card .meta{font-size:13px;color:var(--muted);margin-bottom:12px}
+.card ul{margin:8px 0 0;padding-left:18px}
+.card li{margin:4px 0}
+.chip{display:inline-block;font-size:12px;padding:2px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted);margin:0 4px 4px 0;background:var(--bg)}
+.chip.ok{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 45%,transparent)}
+.chip.acc{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 45%,transparent)}
+.pick{border-color:var(--primary);box-shadow:inset 0 0 0 1px var(--primary)}
+.pick .badge{position:absolute;top:-11px;left:16px;background:var(--primary);color:var(--on-primary);font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:999px;font-weight:600}
+.card{position:relative}
+.thumb{aspect-ratio:4/3;border-radius:10px;overflow:hidden;background:var(--surface-2);margin:-4px 0 14px;border:1px solid var(--border)}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb.wide{aspect-ratio:16/10}
+figure{margin:0}
+figcaption{font-size:13px;color:var(--muted);margin-top:8px}
+
+/* table */
+table{border-collapse:collapse;width:100%;font-size:14px;margin:8px 0 4px}
+th,td{border-bottom:1px solid var(--border);padding:10px 8px;text-align:left;vertical-align:top}
+th{color:var(--muted);font-weight:500;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+tr.hi td{background:var(--hl)}
+.tbl{overflow-x:auto;border:1px solid var(--border);border-radius:var(--r);background:var(--surface);padding:6px 12px;margin:16px 0}
+
+/* callouts */
+.callout{border-left:3px solid var(--primary);background:var(--surface);padding:16px 20px;border-radius:0 var(--r) var(--r) 0;margin:18px 0}
+.callout.acc{border-left-color:var(--accent)}
+.callout .q{font-family:var(--serif);font-size:22px;font-weight:600;margin-bottom:6px}
+.sub-h{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:34px 0 12px}
+.steps{counter-reset:s;list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.steps li{counter-increment:s;display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start}
+.steps li::before{content:counter(s);font-family:var(--serif);font-weight:700;font-size:22px;color:var(--primary);line-height:1.1}
+.principles{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:10px}
+.principles div{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px;font-size:14px}
+.principles .k{font-family:var(--serif);font-size:28px;color:var(--primary);font-weight:700;line-height:1}
+@media (max-width:860px){.principles{grid-template-columns:1fr 1fr}}
+
+/* task board (task 3) */
+.board-tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 14px}
+.board-tools button{font:inherit;font-size:13px;padding:6px 12px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer}
+.board-tools button[aria-pressed="true"]{background:var(--text);color:var(--bg);border-color:var(--text)}
+.board-tools .hint{font-size:13px;color:var(--muted);margin-left:auto}
+.board{display:grid;gap:10px}
+.tk{display:grid;grid-template-columns:28px 54px 1fr auto;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;transition:opacity .25s ease,transform .25s ease}
+.tk input{width:18px;height:18px;accent-color:var(--primary);cursor:pointer;margin:0}
+.tk .p{font-family:var(--serif);font-size:30px;font-weight:700;color:var(--primary);line-height:1}
+.tk .title{font-weight:600}
+.tk .why{font-size:13px;color:var(--muted);margin-top:2px}
+.tk .due{font-size:13px;white-space:nowrap;text-align:right}
+.tk .due b{display:block;font-weight:600}
+.tk .due.red b{color:var(--danger)}
+.tk.done{opacity:.45}
+.tk.done .title{text-decoration:line-through}
+.tk.hidden{display:none}
+.tk .chain{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-top:4px}
+@media (max-width:640px){.tk{grid-template-columns:24px 1fr;gap:8px 12px}.tk .p{display:none}.tk .due{grid-column:2;text-align:left}.tk .due b{display:inline;margin-right:6px}}
+
+.chat{display:grid;gap:10px;max-width:640px}
+.bubble{background:var(--surface);border:1px solid var(--border);border-radius:16px 16px 16px 4px;padding:12px 16px;font-size:15px;line-height:1.5;position:relative}
+.bubble .who{font-size:12px;color:var(--muted);margin-bottom:4px;letter-spacing:.04em}
+.bubble.me{background:var(--hl);border-color:color-mix(in srgb,var(--primary) 40%,transparent);border-radius:16px 16px 4px 16px;margin-left:40px}
+.bubble p:last-child{margin:0}
+
+.sheet{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;background:var(--surface);font-size:13px}
+.sheet .bar{display:flex;gap:6px;align-items:center;padding:8px 12px;border-bottom:1px solid var(--border);color:var(--muted);font-size:12px}
+.sheet .bar i{width:10px;height:10px;border-radius:50%;background:var(--line);display:inline-block}
+.sheet table{margin:0;font-size:13px}
+.sheet th,.sheet td{padding:7px 10px;white-space:nowrap}
+.sheet td.st{font-weight:600}
+.sheet td.st.r{color:var(--danger)}.sheet td.st.g{color:var(--ok)}.sheet td.st.a{color:var(--accent)}
+.tg{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;font-size:14px}
+.tg .hdr{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.tg .ava{width:34px;height:34px;border-radius:50%;background:var(--primary);color:var(--on-primary);display:grid;place-items:center;font-weight:700;font-family:var(--serif);font-size:18px}
+.tg .msg{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:10px 12px;white-space:pre-line;line-height:1.5}
+
+/* process */
+.process{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.process div{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px;font-size:14px}
+.process b{display:block;font-family:var(--serif);font-size:20px;margin-bottom:4px;font-weight:600}
+@media (max-width:860px){.process{grid-template-columns:1fr 1fr}}
+footer{padding:48px 0 64px;color:var(--muted);font-size:14px;border-top:1px solid var(--border);margin-top:48px}
+
+/* moodboard strip */
+.mood{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:22px}
+.mood a{display:block;position:relative;aspect-ratio:3/4;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:var(--surface-2);margin:0}
+.mood a img{width:100%;height:100%;object-fit:cover;display:block}
+.mood a span{position:absolute;left:0;right:0;bottom:0;padding:22px 10px 8px;font-size:12px;color:#fff;letter-spacing:.04em;background:linear-gradient(to top,rgba(20,16,10,.75),rgba(20,16,10,0))}
+@media (max-width:860px){.mood{grid-template-columns:repeat(3,1fr)}.mood a:nth-child(n+4){aspect-ratio:4/3}}
+/* lightbox */
+.thumb{cursor:zoom-in}
+.thumb img{transition:transform .35s ease}
+@media (hover:hover){.thumb:hover img{transform:scale(1.03)}}
+.lb{position:fixed;inset:0;z-index:50;background:rgba(20,16,10,.92);display:none;align-items:center;justify-content:center;padding:24px;cursor:zoom-out}
+.lb.open{display:flex}
+.lb figure{margin:0;max-width:min(1100px,96vw);max-height:92vh;display:grid;grid-template-rows:1fr auto;gap:12px}
+.lb img{max-width:100%;max-height:80vh;object-fit:contain;border-radius:10px;background:#000;justify-self:center}
+.lb figcaption{color:#e9e2d4;font-size:14px;text-align:center}
+.lb figcaption a{color:#f3d58a}
+.lb .x{position:fixed;top:14px;right:18px;font:28px/1 var(--sans);color:#e9e2d4;background:none;border:0;cursor:pointer}
+/* reveal */
+[data-reveal]{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
+[data-reveal].in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){[data-reveal]{opacity:1;transform:none;transition:none}.tk{transition:none}}
+
+@media print{
+  nav.top,.board-tools,[data-noprint]{display:none!important}
+  body{font-size:12.5px;background:#fff;color:#000}
+  [data-reveal]{opacity:1;transform:none}
+  section.task{padding:28px 0 8px;break-inside:auto}
+  .card,.callout,.tbl,.sheet,.tg{break-inside:avoid;box-shadow:none}
+  a{color:#000;border:0}a[href^="http"]::after{content:" (" attr(href) ")";font-size:10px;color:#555}
+  .summary{grid-template-columns:repeat(5,1fr)}
+}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="Разделы">
+  <div class="wrap">
+    <a class="brand" href="#top">Aorens · тестовое</a>
+    <a class="pill" href="#t1">1 Дизайнеры</a>
+    <a class="pill" href="#t2">2 Референсы</a>
+    <a class="pill" href="#t3">3 Контроль</a>
+    <a class="pill" href="#t4">4 Ужин</a>
+    <a class="pill" href="#t5">5 Самостоятельность</a>
+    <a class="pill" href="#how">Как работал</a>
+    <button type="button" id="themeBtn" aria-label="Переключить тему">◐</button>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="eyebrow">Тестовое задание · ассистент руководителя · бренд ароматов для дома Aorens</div>
+    <h1 style="margin-top:14px">Пять задач.<br>Один подход: разобраться, сделать, довести.</h1>
+    <p class="lede">Это та же работа, что в Google-документе, только собранная так, чтобы её было удобно читать с телефона и показывать на созвоне. Каждая задача — результат, логика выбора и что бы я сделал дальше.</p>
+    <div class="byline">
+      <span><b>Фёдор Поплавский</b></span>
+      <span>Омск · удалённо · на связи по МСК</span>
+      <span>Сдано 19 октября 2026</span>
+    </div>
+    <div class="summary" data-noprint-keep>
+      <a href="#t1"><div class="n">1</div><div class="t">Дизайнеры этикеток</div><div class="d" id="sum1">4 дизайнера с упаковкой в портфолио, трое — на старт, готовый бриф</div></a>
+      <a href="#t2"><div class="n">2</div><div class="t">Референсы упаковки</div><div class="d" id="sum2">5 приёмов премиальной упаковки без тиснения и вырубки, 5 принципов для ТЗ</div></a>
+      <a href="#t3"><div class="n">3</div><div class="t">Контроль задач</div><div class="d">Счёт → цепочка макета → звонок → упаковка. Таблица + бот</div></a>
+      <a href="#t4"><div class="n">4</div><div class="t">Ужин в Петербурге</div><div class="d" id="sum4">2 ресторана в бюджете 25 000 ₽, один — мой выбор</div></a>
+      <a href="#t5"><div class="n">5</div><div class="t">Самостоятельность</div><div class="d">Понял → начал → показал черновик, один вопрос вместо десяти</div></a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ ЗАДАНИЕ 1 ============ -->
+<section class="task" id="t1">
+  <div class="wrap">
+    <div class="task-head" data-reveal>
+      <div class="num">1</div>
+      <div>
+        <h2>Поиск дизайнера этикеток</h2>
+        <p class="brief"><b>Задача:</b> найти 3 дизайнеров под этикетки нового бренда ароматов для дома. Нужны упаковка и этикетки в портфолио, современный минимализм, желательно косметика, парфюмерия или товары для дома.</p>
+      </div>
+    </div>
+    <p class="small muted" data-reveal>Искал на Behance по-русски («диффузор», «этикетка свечи», «ароматы для дома») и по-английски («home fragrance packaging», «perfume packaging») с фильтром по России. Отсеивал студенческие концепты, инфографику для маркетплейсов и тех, у кого упаковки нет в портфолио. Оставлял тех, у кого упаковка — основная специализация, чистый минимализм, работы для косметики или ароматов для дома 2023–2026 и кнопка «Нанять» на Behance.</p>
+
+    <div class="grid g3" style="margin-top:18px">
+      <div class="card pick" data-reveal><span class="badge">Начать первой</span>
+        <figure class="thumb"><img src="img/d1-kost.jpg" alt="Упаковка косметики ULU — работа Дарьи Кост" loading="lazy" width="1400" height="1050"></figure>
+        <h3>Дарья Кост · «Коллегиум»</h3>
+        <div class="meta">Грузия, работает с Россией · <a href="https://www.behance.net/dariakost" target="_blank" rel="noopener">behance.net/dariakost</a></div>
+        <div><span class="chip ok">упаковка — специализация</span><span class="chip ok">10+ проектов косметики</span><span class="chip acc">от 1 200 $ за позицию</span></div>
+        <ul>
+          <li><a href="https://www.behance.net/gallery/216442091/ULU-cosmetic-packaging-kosmetika-upakovka" target="_blank" rel="noopener">ULU cosmetic packaging</a> (2025) — спокойная дорогая подача, 1,6 тыс. оценок.</li>
+          <li><a href="https://www.behance.net/gallery/248894597/raznolese-upakovka-kosmetiki-packaging-cosmetics" target="_blank" rel="noopener">Разнолесье</a> (2026) — четыре линейки в одной системе: у каждого аромата свой характер, бренд узнаётся сразу. Ровно наша задача.</li>
+        </ul>
+        <p class="small" style="margin:10px 0 0"><b>Почему:</b> умеет строить систему линейки, а для бренда с несколькими ароматами это главное. Самый сильный по оценкам из найденных. <b>Цена</b> (вкладка «Услуги»): от 1 200 $ за позицию — 2 концепции, 3 раунда правок, подбор материалов, 1–2 недели. <b>Риск:</b> оплата из России в Грузию — уточню, как удобнее принять оплату от ИП.</p>
+      </div>
+      <div class="card pick" data-reveal><span class="badge">Параллельно</span>
+        <figure class="thumb"><img src="img/d2-luchinina.jpg" alt="Упаковка натуральной косметики Bainita — работа Елены Лучининой" loading="lazy" width="1400" height="1050"></figure>
+        <h3>Елена Лучинина</h3>
+        <div class="meta">Россия · <a href="https://www.behance.net/487f4281" target="_blank" rel="noopener">профиль на Behance</a></div>
+        <div><span class="chip ok">макеты в печать</span><span class="chip ok">авторский контроль тиража</span><span class="chip acc">от 1 200 $</span></div>
+        <ul>
+          <li><a href="https://www.behance.net/gallery/170682675/upakovka-dlja-brenda-naturalnoj-kosmetiki-Bainita" target="_blank" rel="noopener">Bainita</a> (2023) — реальный бренд с сетью магазинов: технические макеты коробок и этикеток на 12+ SKU, контроль печати, расчёт тиража.</li>
+          <li><a href="https://www.behance.net/gallery/158547031/Premium-Skincare-Packaging-Design-Brand-Identity" target="_blank" rel="noopener">LEYLIT</a> — премиальный уход в стилистике «тихой роскоши», в проекте отмечен дизайн этикеток.</li>
+        </ul>
+        <p class="small" style="margin:10px 0 0"><b>Почему:</b> доводит макеты до типографии — для нового бренда это половина успеха: этикетка должна правильно лечь на флакон и не «поплыть» в тираже. <b>Цена</b> (блок «Сервисы»): упаковка от 1 200 $, логотип + стиль от 550 $. <b>Риск:</b> мало оценок на Behance, публичных отзывов не нашёл.</p>
+      </div>
+      <div class="card pick" data-reveal><span class="badge">Третьей</span>
+        <figure class="thumb"><img src="img/d3-karacheva.jpg" alt="Айдентика и упаковка LETME — работа Валерии Карачевой" loading="lazy" width="1400" height="1050"></figure>
+        <h3>Валерия Карачева</h3>
+        <div class="meta">Россия · <a href="https://www.behance.net/82ef1bba" target="_blank" rel="noopener">профиль на Behance</a></div>
+        <div><span class="chip ok">свечи и диффузоры</span><span class="chip ok">самый чистый минимализм</span><span class="chip">цена этикеток не указана</span></div>
+        <ul>
+          <li><a href="https://www.behance.net/gallery/152735175/ARTIFACT-CANDLES-BRAND" target="_blank" rel="noopener">ARTIFACT · candles brand</a> (2022) — скульптурные свечи; в тегах candles packaging, diffuser, home fragrance. Прямое попадание в категорию.</li>
+          <li><a href="https://www.behance.net/gallery/221730525/LETME-HAIR-CARE-BRAND-IDENTITY" target="_blank" rel="noopener">LETME · hair care</a> (2025) — айдентика и упаковка линейки ухода за волосами.</li>
+        </ul>
+        <p class="small" style="margin:10px 0 0"><b>Почему:</b> типографика и много воздуха, по стилю ближе всех к нишевому бренду ароматов. <b>Цена:</b> публично только Brand Identity от 1 000 $ и Logotype от 500 $, этикетки — по запросу. <b>Риск:</b> проект со свечами 2022 года; неясно, делает ли печатные макеты — спрошу.</p>
+      </div>
+    </div>
+
+    <div class="card" data-reveal style="margin-top:16px;display:grid;grid-template-columns:160px 1fr;gap:18px;align-items:start">
+      <figure class="thumb" style="margin:0;aspect-ratio:1"><img src="img/d4-leonova.jpg" alt="Упаковка ароматических саше Cozy Home — работа Анастасии Леоновой" loading="lazy" width="1400" height="1400"></figure>
+      <div>
+        <h3 style="font-size:20px">Запасной вариант: Анастасия Леонова, Москва</h3>
+        <div class="meta"><a href="https://www.behance.net/obuhovaas" target="_blank" rel="noopener">профиль на Behance</a> · упаковка от 200 $</div>
+        <p class="small" style="margin:0"><a href="https://www.behance.net/gallery/187246935/FRAGRACES-at-COZY-HOME" target="_blank" rel="noopener">Ароматические саше для Cozy Home</a> (2023) и <a href="https://www.behance.net/gallery/251352643/ComplimentCosmeticsPackage" target="_blank" rel="noopener">косметика Compliment</a> (2026). Понимает требования сетей и маркетплейсов к упаковке, бюджетный вариант. Минус: стиль ближе к масс-маркету, минимализм придётся жёстко прописать в брифе. Держу в запасе, если бюджет окажется ниже 1 000 $.</p>
+      </div>
+    </div>
+
+    <div class="tbl" data-reveal>
+    <table>
+      <thead><tr><th>Кандидат</th><th>Упаковка / этикетки</th><th>Минимализм</th><th>Косметика / парфюм / дом</th><th>Цена (публично)</th><th>Риски</th></tr></thead>
+      <tbody>
+        <tr class="hi"><td><b>Дарья Кост / «Коллегиум»</b></td><td>основная специализация, 10+ проектов</td><td>да (ULU)</td><td>косметика — много</td><td>от 1 200 $ за позицию</td><td>дорого при нескольких SKU; оплата в Грузию</td></tr>
+        <tr class="hi"><td><b>Елена Лучинина</b></td><td>основная услуга, макеты в печать, контроль тиража</td><td>да, «тихая роскошь»</td><td>косметика (Bainita, LEYLIT)</td><td>от 1 200 $</td><td>мало оценок, отзывов вне Behance нет</td></tr>
+        <tr><td>Валерия Карачева</td><td>есть, но в основном айдентика</td><td>сильный</td><td>свечи и диффузоры (ARTIFACT), уход (LETME)</td><td>этикетки не указаны; айдентика от 1 000 $</td><td>свечи — 2022 г.; печатные макеты — неясно</td></tr>
+        <tr><td>Анастасия Леонова</td><td>есть</td><td>средне</td><td>ароматы для дома (Cozy Home), косметика</td><td>от 200 $</td><td>стиль ближе к масс-маркету</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="callout" data-reveal>
+      <div class="q">С кем начать и как</div>
+      Написал бы всем троим в один день с одинаковым брифом и попросил смету, сроки и 2–3 похожих кейса со ссылкой на реальную продукцию. Через 2–3 дня сравнил бы ответы в таблице. Кост — за систему линейки, Лучинина — за доведение до печати, Карачева — если руководителю важнее всего «нишевый» вид. Цены на Behance — стартовые «от», реальная смета зависит от числа SKU.
+    </div>
+
+    <div class="grid g2">
+      <div data-reveal>
+        <div class="sub-h" style="margin-top:10px">Бриф для дизайнера — черновик</div>
+        <ol class="steps">
+          <li><span><b>Бренд.</b> Aorens — новый российский бренд ароматов для дома. Позиционирование и аудитория — по ответу руководителя. Стиль — современный минимализм.</span></li>
+          <li><span><b>Линейка.</b> Состав (диффузоры, свечи, спреи, саше?), число ароматов и объёмов. Нужна единая система этикеток, где аромат и объём меняются как переменные.</span></li>
+          <li><span><b>Носитель.</b> Форма и материал флакона, размер и способ нанесения этикетки (самоклейка, шелкография), коробка — нужна или нет.</span></li>
+          <li><span><b>Тираж и печать.</b> Ориентировочный тираж, типография, если выбрана, бюджет на отделку.</span></li>
+          <li><span><b>Обязательная информация.</b> Состав, предупреждения, ЕАС, штрихкод, данные производителя — должны поместиться и читаться.</span></li>
+          <li><span><b>Сроки.</b> Концепции — ориентир 1–2 недели, затем доработка и печатные макеты.</span></li>
+          <li><span><b>Результат.</b> 2–3 концепции → доработка одной → печатные макеты по требованиям типографии (PDF/X, CMYK, вылеты, контур высечки), исходники, шрифты с лицензией, мокапы для маркетплейсов и соцсетей.</span></li>
+        </ol>
+      </div>
+      <div data-reveal>
+        <div class="sub-h" style="margin-top:10px">Три вопроса руководителю до отправки брифа</div>
+        <ol class="steps">
+          <li><span>Какой бюджет на дизайн и что в первую очередь: только этикетки или ещё логотип и коробка?</span></li>
+          <li><span>Сколько продуктов и ароматов на старте, есть ли уже флаконы, размеры и типография?</span></li>
+          <li><span>Есть ли референсы — бренды, которые нравятся и которые точно нет, — и к какой дате нужны готовые макеты?</span></li>
+        </ol>
+        <p class="small muted" style="margin-top:16px"><b>Что проверил / чего не нашёл.</b> Все профили и проекты открыл 19.10.2026, названия, даты и цены переписаны со страниц Behance. Цены в рубли не пересчитывал. На Kwork, Profi.ru и dprofile цены не искал — не хватило времени. Подтвердить, что ARTIFACT и LETME сделаны для реальных клиентов, а не концепты, по страницам нельзя; у ULU, «Разнолесья» и Bainita клиент указан.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ЗАДАНИЕ 2 ============ -->
+<section class="task" id="t2">
+  <div class="wrap">
+    <div class="task-head" data-reveal>
+      <div class="num">2</div>
+      <div>
+        <h2>Референсы этикеток и упаковки</h2>
+        <p class="brief"><b>Задача:</b> 5 визуальных референсов для премиальной линейки диффузоров. Минимализм, дорогой вид, современно — и обязательно массово, без сложных исполнений.</p>
+      </div>
+    </div>
+    <p class="small muted" data-reveal>Брал только то, что одновременно выглядит минималистично, дорого и современно и при этом печатается обычным тиражом: стандартный стеклянный флакон, бумажная или плёночная этикетка, картонная коробка, 1–2 цвета печати. Отсеивал фольгу и конгрев как основной приём, сложную вырубку, нестандартные флаконы, ручную сборку и иллюстрации на всю упаковку. Пять референсов — пять разных приёмов, чтобы собрать свою систему, а не копировать один бренд.</p>
+
+    <div class="mood" data-reveal aria-label="Лента референсов">
+      <a href="#ref-1" class="thumb"><img src="img/ref1-labruket.jpg" alt="L:A Bruket — янтарное стекло и белая этикетка" width="1000" height="1251"><span>01 · тёмное стекло</span></a>
+      <a href="#ref-2" class="thumb"><img src="img/ref2-space.jpg" alt="Space — две зоны этикетки" width="1000" height="715"><span>02 · две зоны</span></a>
+      <a href="#ref-3" class="thumb"><img src="img/ref3-scentiments.jpg" alt="sCentiments — чёрное на чёрном" width="1000" height="669"><span>03 · чёрное на чёрном</span></a>
+      <a href="#ref-4" class="thumb"><img src="img/ref4-boreal.jpg" alt="Boreal — один акцент на картоне" width="1000" height="562"><span>04 · один акцент</span></a>
+      <a href="#ref5" class="thumb"><img src="img/ref5-skandinavisk.jpg" alt="Skandinavisk — узкая коробка в цвет аромата" width="880" height="915"><span>05 · узкая коробка</span></a>
+    </div>
+
+    <div class="grid g2" style="margin-top:18px">
+      <div class="card" data-reveal id="ref-1">
+        <figure class="thumb wide"><img src="img/ref1-labruket.jpg" alt="L:A Bruket Room Diffuser Hinoki — янтарный флакон с маленькой белой этикеткой" loading="lazy" width="1000" height="1000"></figure>
+        <div class="eyebrow">01 · тёмное стекло + светлая этикетка</div>
+        <h3 style="margin-top:6px">L:A Bruket, Room Diffuser 320 Hinoki</h3>
+        <div class="meta">серийный продукт · Швеция · <a href="https://www.labruket.com/sv-se/products/room-diffuser-hinoki-200-ml-1" target="_blank" rel="noopener">источник</a></div>
+        <p class="small">Стандартная аптечная бутылка из янтарного стекла 200 мл, чёрные палочки и маленькая белая бумажная этикетка с чёрным текстом в одну краску.</p>
+        <ul class="small">
+          <li><b>Берём:</b> дорогой вид даёт контраст, а не отделка; флакон стоковый, купить можно у любого поставщика тары.</li>
+          <li><b>Берём:</b> три строки на этикетке — номер аромата, название крупно, бренд мелко; один узкий гротеск.</li>
+          <li><b>Берём:</b> номер аромата («№ 320») как элемент системы: линейку легко расширять, на полке это коллекция.</li>
+          <li><b>Не берём:</b> почти аптечный вид. Для премиума — плотная фактурная бумага и больше воздуха вокруг текста.</li>
+        </ul>
+      </div>
+      <div class="card" data-reveal id="ref-2">
+        <figure class="thumb wide"><img src="img/ref2-space.jpg" alt="Space home fragrances — прозрачный флакон с белой этикеткой и чёрной плашкой бренда" loading="lazy" width="1000" height="716"></figure>
+        <div class="eyebrow">02 · две зоны этикетки, моноширинный шрифт</div>
+        <h3 style="margin-top:6px">Space — Oden Studio</h3>
+        <div class="meta">дизайн-проект · Нью-Йорк · дизайнер Merril Cledera · <a href="https://packagingoftheworld.com/2024/05/space-home-fragrances.html" target="_blank" rel="noopener">Packaging of the World</a></div>
+        <p class="small">Прозрачный флакон 100 мл с чёрной крышкой; белая прямоугольная этикетка, сверху чёрная плашка с брендом, ниже название аромата моноширинным шрифтом.</p>
+        <ul class="small">
+          <li><b>Берём:</b> этикетка делится на две зоны — плашка с брендом и белое поле с ароматом; печать в один цвет, плашка — просто заливка.</li>
+          <li><b>Берём:</b> «машинописный» шрифт для названия аромата: современно и стоит ноль рублей.</li>
+          <li><b>Берём:</b> этикетка закрывает около половины флакона, жидкость видна — это часть образа.</li>
+          <li><b>Не берём:</b> прозрачное стекло показывает пузырьки и уровень жидкости, с дешёвой тарой это рискованнее тёмного стекла.</li>
+        </ul>
+      </div>
+      <div class="card" data-reveal id="ref-3">
+        <figure class="thumb wide"><img src="img/ref3-scentiments.jpg" alt="sCentiments — чёрный матовый флакон диффузора с мелким белым текстом" loading="lazy" width="1000" height="669"></figure>
+        <div class="eyebrow">03 · «чёрное на чёрном», массовый сегмент</div>
+        <h3 style="margin-top:6px">sCentiments — агентство étiquette</h3>
+        <div class="meta">дизайн-проект · Вильнюс · дизайнер Greta Dumčiūtė, заказчик Lesta · <a href="https://packagingoftheworld.com/2023/10/scentiments-home-fragrance.html" target="_blank" rel="noopener">Packaging of the World</a></div>
+        <p class="small">Чёрный матовый флакон с чёрными палочками и мелким белым текстом. Линейку делали для масс-маркета: по описанию проекта — спреи дешевле 10 евро для крупных сетей.</p>
+        <ul class="small">
+          <li><b>Берём:</b> матовый флакон и минимум белого текста выглядят как нишевая парфюмерия, хотя продукт массовый — ровно наша задача.</li>
+          <li><b>Берём:</b> у каждого аромата свой оттенок, а форма и вёрстка одинаковые — линейка различается на полке.</li>
+          <li><b>Берём:</b> бренд и аромат мелко, по центру, в две строки — никакого декора.</li>
+          <li><b>Не берём:</b> тактильные узоры под каждый аромат. Заменить на матовую этикетку или выборочный лак — дешевле и проще в тираже.</li>
+        </ul>
+      </div>
+      <div class="card" data-reveal id="ref-4">
+        <figure class="thumb wide"><img src="img/ref4-boreal.jpg" alt="Boreal Home Fragrance Collection — коробки из серо-бежевого картона с одним тёмным силуэтом" loading="lazy" width="1000" height="563"></figure>
+        <div class="eyebrow">04 · один акцент, цветной картон</div>
+        <h3 style="margin-top:6px">Boreal Home Fragrance Collection</h3>
+        <div class="meta">дизайн-проект · автор указан как Julia M. · <a href="https://packagingoftheworld.com/2026/09/boreal-home-fragrance-collection.html" target="_blank" rel="noopener">Packaging of the World</a></div>
+        <p class="small">Коробки из серо-бежевого картона для свечи и диффузора: название бренда шрифтом с засечками, один тёмный силуэт камня и мелкие строки текста.</p>
+        <ul class="small">
+          <li><b>Берём:</b> один акцент на коробке — одна фигура или знак на аромат, и больше ничего.</li>
+          <li><b>Берём:</b> цветной картон вместо запечатки: фон даёт материал, печать — один тёмный цвет.</li>
+          <li><b>Берём:</b> вертикальная сетка — бренд сверху, акцент по центру, аромат и объём внизу. Переносится на этикетку.</li>
+          <li><b>Не берём:</b> на рендере коробка жёсткая (rigid). Для тиража — складная из плотного дизайнерского картона с той же печатью.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card" data-reveal style="margin-top:16px;display:grid;grid-template-columns:minmax(200px,38%) 1fr;gap:20px;align-items:start" id="ref5">
+      <figure class="thumb" style="margin:0;aspect-ratio:1"><img src="img/ref5-skandinavisk.jpg" alt="Skandinavisk HYGGE Scent Diffuser 500 ml — тонированный флакон и узкая вертикальная коробка" loading="lazy" width="880" height="880"></figure>
+      <div>
+        <div class="eyebrow">05 · узкая вертикальная коробка, цвет на аромат</div>
+        <h3 style="margin-top:6px">Skandinavisk, HYGGE Scent Diffuser 500 ml</h3>
+        <div class="meta">серийный продукт · Дания · <a href="https://www.skandinavisk.com/en-se/hygge-scent-diffuser-500ml-1.html" target="_blank" rel="noopener">источник</a></div>
+        <p class="small">Тонированный цилиндрический флакон с мелким текстом и рисунком прямо по стеклу, рядом узкая вертикальная коробка: сверху фото, снизу однотонное поле в цвет аромата.</p>
+        <ul class="small">
+          <li><b>Берём:</b> узкая высокая коробка — на полке и в карточке маркетплейса выглядит дороже квадратной.</li>
+          <li><b>Берём:</b> цвет аромата повторяется на стекле, в палочках и на коробке — упаковка читается как одна система.</li>
+          <li><b>Берём:</b> коробка повторяет этикетку: тот же шрифт, та же позиция названия, только крупнее.</li>
+          <li><b>Не берём:</b> печать по стеклу и фото на коробке. Вместо них — прозрачная плёночная этикетка (эффект «напечатано на стекле») и однотонная коробка.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sub-h">Сводка: 5 принципов для ТЗ дизайнеру</div>
+    <div class="principles" data-reveal>
+      <div><div class="k">1</div>Стоковый флакон, лучше тёмное или тонированное стекло. Дорогой вид даёт контраст этикетки, а не форма тары.</div>
+      <div><div class="k">2</div>Одна гарнитура в двух-трёх размерах: бренд, аромат, служебные строки. Никакого декора.</div>
+      <div><div class="k">3</div>1–2 цвета печати на плотной фактурной бумаге или прозрачной плёнке. Вместо фольги — матовый или выборочный лак.</div>
+      <div><div class="k">4</div>Один акцент на аромат — цвет, номер или знак. Вёрстка у всей линейки одинаковая.</div>
+      <div><div class="k">5</div>Коробка повторяет этикетку: тот же шрифт и сетка. Складная, из цветного картона в одну краску.</div>
+    </div>
+    <p class="small muted" style="margin-top:16px"><b>Что проверил / чего не нашёл.</b> Все изображения открыты 19.10.2026, здесь они сохранены как превью, источники — по ссылкам. Референсы 2–4 — дизайн-проекты, часть картинок — рендеры, поэтому не утверждаю, что тираж выглядит именно так; 1 и 5 — серийные продукты с сайтов брендов. Готового референса с узкой вертикальной этикеткой на флаконе и с «одной линией» в нужном качестве не нашёл: вертикаль закрыта коробкой Skandinavisk, «один знак» — коробкой Boreal. На Behance по запросам про диффузоры в основном яркие иллюстрированные проекты — под «минимализм» не подходят.</p>
+  </div>
+</section>
+
+<!-- ============ ЗАДАНИЕ 3 ============ -->
+<section class="task" id="t3">
+  <div class="wrap">
+    <div class="task-head" data-reveal>
+      <div class="num">3</div>
+      <div>
+        <h2>Контроль задач</h2>
+        <p class="brief"><b>Пять задач одновременно.</b> Время московское, исхожу из того, что все они оказались у меня около 13:00. Оцениваю каждую по трём вопросам: когда срок, что будет при срыве, от кого зависит следующий шаг.</p>
+      </div>
+    </div>
+
+    <div class="sub-h">Приоритеты — живая доска</div>
+    <div class="board-tools" data-noprint>
+      <button type="button" data-f="all" aria-pressed="true">Все</button>
+      <button type="button" data-f="today" aria-pressed="false">Сегодня</button>
+      <button type="button" data-f="tomorrow" aria-pressed="false">Завтра</button>
+      <button type="button" data-f="week" aria-pressed="false">На неделе</button>
+      <span class="hint">Отметьте сделанное — доска пересчитает, что осталось</span>
+    </div>
+    <div class="board" id="board">
+      <label class="tk" data-when="today"><input type="checkbox"><span class="p">1</span><span><span class="title">Оплатить счёт поставщику</span><div class="why">Самый ранний срок. Просрочка бьёт по деньгам и по отношениям с поставщиком. От руководителя нужно одно действие — всё остальное готовлю я.</div></span><span class="due red"><b>сегодня 15:00</b>руководитель</span></label>
+      <label class="tk" data-when="today"><input type="checkbox"><span class="p">2</span><span><span class="title">Дизайнер молчит 5 часов, типография ждёт</span><div class="why">Это уже сбой, и он тянет за собой всю цепочку до упаковки. Узнаю реальный крайний срок типографии, готовлю резерв.</div><div class="chain">цепочка: макет → согласование → типография → упаковка</div></span><span class="due red"><b>сегодня, срок типографии</b>дизайнер · я</span></label>
+      <label class="tk" data-when="today"><input type="checkbox"><span class="p">3</span><span><span class="title">Макет этикетки от дизайнера</span><div class="why">Та же цепочка: без макета нечего согласовывать. Промежуточная точка в 16:00, статус руководителю в 17:00.</div><div class="chain">цепочка: макет → согласование → типография → упаковка</div></span><span class="due"><b>сегодня 18:00</b>дизайнер</span></label>
+      <label class="tk" data-when="tomorrow"><input type="checkbox"><span class="p">4</span><span><span class="title">Звонок с подрядчиком</span><div class="why">Сегодня нужно только подтвердить время и собрать повестку: 3–5 вопросов и что хотим получить по итогам.</div></span><span class="due"><b>завтра 12:00</b>руководитель · я</span></label>
+      <label class="tk" data-when="week"><input type="checkbox"><span class="p">5</span><span><span class="title">Заказать упаковку для новой продукции</span><div class="why">Времени больше всего, но заказ зависит от утверждённого макета. Сегодня узнаю у поставщика, что нужно для заказа и сколько дней производство.</div><div class="chain">цепочка: макет → согласование → типография → упаковка</div></span><span class="due"><b>через 3 дня</b>я</span></label>
+    </div>
+    <p class="small muted" id="boardStatus" style="margin-top:10px" data-noprint></p>
+
+    <div class="callout" data-reveal>
+      <div class="q">Почему счёт первый, а молчание дизайнера — второе</div>
+      Счёт стоит первым, но от руководителя там нужно одно действие — нажать «оплатить». Всё остальное я готовлю сам. Задачи с макетом, типографией и упаковкой — одна цепочка. Поэтому молчание дизайнера — не мелочь на 18:00, а риск для заказа упаковки через три дня.
+    </div>
+
+    <div class="sub-h">Как контролирую каждую задачу</div>
+    <div class="grid g2">
+      <div class="card" data-reveal><h3>Счёт</h3>
+        <ul><li><b>13:00</b> — проверяю счёт: реквизиты, сумма, назначение. Сверяю с договором или прошлой оплатой этому поставщику.</li><li><b>14:00</b> — отправляю руководителю одним сообщением: сумма, получатель, назначение, файл счёта, срок. Ему остаётся только оплатить.</li><li><b>14:45</b> — нет подтверждения: звоню. После оплаты прошу платёжку и отправляю её поставщику.</li></ul></div>
+      <div class="card" data-reveal><h3>Дизайнер молчит</h3>
+        <ul><li><b>13:00</b> — пишу дизайнеру (текст ниже). Параллельно звоню в типографию: какой реальный крайний срок, могут ли придержать слот.</li><li><b>14:00</b> — нет ответа: звоню дизайнеру и пишу второе сообщение.</li><li><b>15:00</b> — тишина: ищу резервного дизайнера. Кто свободен, сколько стоит, возьмёт ли срочную правку. Пока только узнаю, без заказа.</li></ul></div>
+      <div class="card" data-reveal><h3>Макет до 18:00</h3>
+        <ul><li>Если дизайнер ответил — договариваюсь о промежуточной точке: в <b>16:00</b> присылает, что готово.</li><li><b>17:00</b> — сверяю статус и пишу руководителю.</li><li><b>18:00</b> — макет пришёл: сразу руководителю на согласование, после «ок» — в типографию. Не пришёл: руководитель решает, подключать ли резерв, типографии сообщаю новый срок.</li></ul></div>
+      <div class="card" data-reveal><h3>Звонок завтра</h3>
+        <ul><li>Сегодня до <b>17:00</b> — подтверждаю подрядчику время и формат, высылаю ссылку.</li><li>Вечером — повестка: 3–5 вопросов, что хотим получить, прошлые договорённости.</li><li>Завтра после звонка — итоги и следующие шаги в таблицу.</li></ul></div>
+      <div class="card" data-reveal><h3>Упаковка через 3 дня</h3>
+        <ul><li>Сегодня — узнаю у поставщика, что нужно для заказа (размеры, тираж, файл, предоплата) и сколько дней производство.</li><li>Через 2 дня — расчёт: тираж, цена, сроки, чего не хватает. Отдельно — утверждён ли макет.</li><li>Если макет не утверждён — заранее говорю руководителю, на сколько сдвигается заказ.</li></ul></div>
+    </div>
+
+    <div class="sub-h">О чём и когда напомню руководителю</div>
+    <div class="tbl" data-reveal>
+    <table>
+      <thead><tr><th>Когда</th><th>О чём</th><th>Канал</th><th>Что приложу</th></tr></thead>
+      <tbody>
+        <tr><td>Сегодня 14:00</td><td>Оплатить счёт до 15:00</td><td>Telegram</td><td>Счёт, сумма, получатель, назначение — всё в одном сообщении</td></tr>
+        <tr><td>Сегодня 14:45</td><td>Счёт ещё не оплачен</td><td>Звонок, потом Telegram</td><td>То же сообщение, чтобы не искать</td></tr>
+        <tr><td>Сегодня 17:00</td><td>Статус макета: на связи ли дизайнер, что ответила типография</td><td>Telegram</td><td>Срок типографии, вариант с резервным дизайнером</td></tr>
+        <tr><td>Сегодня 18:00</td><td>Макет пришёл или нет, нужно решение по типографии</td><td>Telegram</td><td>Макет на согласование или два варианта: ждём / подключаем резерв</td></tr>
+        <tr><td>Завтра 09:30</td><td>Повестка звонка с подрядчиком</td><td>Telegram</td><td>Вопросы, цель звонка, прошлые договорённости</td></tr>
+        <tr><td>Завтра 11:45</td><td>Звонок через 15 минут</td><td>Telegram</td><td>Ссылка на звонок и повестка ещё раз</td></tr>
+        <tr><td>Через 2 дня, утром</td><td>Завтра заказываем упаковку</td><td>Telegram</td><td>Готовый расчёт: тираж, цена, сроки, статус макета</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="sub-h">Сообщения дизайнеру</div>
+    <div class="grid g2">
+      <div>
+        <p class="small muted">Сейчас, 13:00</p>
+        <div class="chat"><div class="bubble me"><div class="who">Я → дизайнеру</div><p>Добрый день! Пишу по макету этикетки. Типография ждёт его на согласование, и сдвиг для нас критичен — от него зависит заказ упаковки.</p><p>Подскажите, успеваете к 18:00? Ответьте, пожалуйста, просто «ок» или назовите время, к которому будет готово.</p></div></div>
+      </div>
+      <div>
+        <p class="small muted">Через час без ответа, 14:00 — сначала звоню, потом пишу</p>
+        <div class="chat"><div class="bubble me"><div class="who">Я → дизайнеру</div><p>Не дозвонился, поэтому дублирую сюда. Макет нам нужен сегодня до 18:00, позже уже не получится.</p><p>Если к 18:00 его не будет, придётся подключать запасной вариант, а мне бы этого не хотелось.</p><p>Может, что-то мешает или нужна помощь — файлы, уточнения по тексту? Напишите, я на связи.</p></div></div>
+      </div>
+    </div>
+    <p class="small muted" style="margin-top:12px">Параллельно с типографией: звоню и узнаю их настоящий крайний срок — до какого часа можно прислать макет, чтобы не потерять очередь. Прошу придержать слот и предупреждаю, что точный статус сообщу в 18:00.</p>
+
+    <div class="sub-h">Как вести такие задачи: таблица + бот, а не тяжёлый трекер</div>
+    <div class="grid g2">
+      <div data-reveal>
+        <div class="sheet">
+          <div class="bar"><i></i><i></i><i></i>&nbsp;Google Таблица «Задачи руководителя»</div>
+          <div style="overflow-x:auto">
+          <table>
+            <thead><tr><th>Задача</th><th>Кто</th><th>Срок</th><th>Статус</th><th>Следующий шаг</th><th>Контакт</th></tr></thead>
+            <tbody>
+              <tr><td>Счёт поставщику</td><td>Руководитель</td><td>сег. 15:00</td><td class="st r">жду оплату</td><td>14:45 звонок</td><td>14:00</td></tr>
+              <tr><td>Макет этикетки</td><td>Дизайнер</td><td>сег. 18:00</td><td class="st r">нет ответа 5 ч</td><td>звонок + резерв</td><td>08:00</td></tr>
+              <tr><td>Согласование с типографией</td><td>Я</td><td>уточняю</td><td class="st a">в работе</td><td>узнать крайний срок</td><td>13:10</td></tr>
+              <tr><td>Звонок с подрядчиком</td><td>Руководитель</td><td>завтра 12:00</td><td class="st g">подтверждено</td><td>повестка к 09:30</td><td>13:30</td></tr>
+              <tr><td>Заказ упаковки</td><td>Я</td><td>+3 дня</td><td class="st a">сбор данных</td><td>расчёт через 2 дня</td><td>—</td></tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+        <p class="small muted" style="margin-top:8px">Колонки: задача, ответственный, срок, статус, следующий шаг, дата последнего контакта. Напоминание срабатывает по сроку и по «нет ответа больше N часов» — молчание дизайнера всплыло бы через 2 часа, а не через 5.</p>
+      </div>
+      <div data-reveal>
+        <div class="tg">
+          <div class="hdr"><div class="ava">A</div><div><b>Сводка руководителю</b><div class="small muted">каждое утро, 09:00, Telegram</div></div></div>
+          <div class="msg">🔴 Горит: счёт поставщику до 15:00 — всё готово, нужна только оплата.
+⏳ Жду от вас: «ок» по макету, когда придёт (ориентир 18:00).
+✅ Сделано: подрядчику подтверждён звонок на завтра 12:00, повестка будет к 09:30.</div>
+        </div>
+        <p class="small" style="margin-top:12px">Почему не трекер: для двух человек таблицу и бота быстрее завести и проще поддерживать. Руководителю не нужно осваивать новый сервис — всё приходит в Telegram. На Notion или Битрикс24 стоит переходить, когда появятся постоянные исполнители со своими задачами или понадобится вести сделки и клиентов.</p>
+        <p class="small"><b>Такую таблицу с автонапоминаниями я соберу сам в первую неделю</b> — похожие таблицы, сводки и напоминания через Telegram-бота я уже делал.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ЗАДАНИЕ 4 ============ -->
+<section class="task" id="t4">
+  <div class="wrap">
+    <div class="task-head" data-reveal>
+      <div class="num">4</div>
+      <div>
+        <h2>Деловой ужин в Санкт-Петербурге</h2>
+        <p class="brief"><b>Поручение:</b> на следующей неделе, 4 человека, хороший ресторан, спокойно, можно обсудить бизнес, бюджет до 25 000 ₽. Это ≈ 6 000 ₽ на человека с напитками, поэтому ищу средний чек 3 000–5 000 ₽ по еде, чтобы остался запас.</p>
+      </div>
+    </div>
+    <p class="small muted" data-reveal>Пока руководитель не уточнил детали, исхожу из будничного вечера в 19:00 и не ограничиваю кухню. Это допущения, их проверяю вопросами ниже. Все адреса, рейтинги и средние счета — по карточкам Яндекс Карт и сайтам ресторанов на 19.10.2026.</p>
+
+    <div class="grid g2" style="margin-top:18px">
+      <div class="card pick" data-reveal><span class="badge">Мой выбор</span>
+        <h3>«Северянин»</h3>
+        <div class="meta">Столярный пер., 18/69 · м. Садовая / Сенная площадь · <a href="https://www.severyanin-spb.ru" target="_blank" rel="noopener">severyanin-spb.ru</a> · +7 (921) 774-74-88</div>
+        <p>Авторская русская и северная кухня, ресторан оформлен как старая петербургская квартира: несколько небольших комнат, камин, диваны, нет бара с танцами. Сам позиционирует себя как место для важных встреч, атмосферу в отзывах хвалят 99 % гостей.</p>
+        <div><span class="chip ok">средний счёт 2 500–2 900 ₽</span><span class="chip ok">на 4 с вином и чаевыми ≈ 18 000 ₽</span><span class="chip">запас ≈ 7 000 ₽</span><span class="chip">Я.Карты 4,7 · 2 556 оценок</span></div>
+        <ul>
+          <li><b>Бронь:</b> форма на сайте или телефон. Прошу стол на четверых в самой тихой комнате, подальше от входа, уточняю, нет ли в этот вечер живой музыки.</li>
+          <li><b>Малый зал на 12 человек</b> есть, но только по депозиту 75 000 ₽ — для нас это не вариант, берём тихий стол.</li>
+          <li><b>Важно:</b> в понедельник закрыт, вт–пт с 17:00 до 23:00.</li>
+        </ul>
+        <p class="small muted" style="margin:10px 0 0">Источники: <a href="https://yandex.ru/maps/org/severyanin/164744118464/" target="_blank" rel="noopener">Яндекс Карты</a>, <a href="https://www.restoclub.ru/spb/place/severjanin" target="_blank" rel="noopener">Restoclub</a> (2 700 ₽)</p>
+      </div>
+      <div class="card" data-reveal>
+        <h3>«Палкинъ»</h3>
+        <div class="meta">Невский пр., 47, 2–3 этаж · м. Маяковская · <a href="https://palkin.ru" target="_blank" rel="noopener">palkin.ru</a> · +7 (812) 703-53-71</div>
+        <p>Классический ресторан русской и французской кухни с историей с XIX века, обслуживание без спешки. Солидное статусное место для важных гостей. Есть отдельные залы: Каминный до 18 человек и Винотека до 12 — можно ли занять их вчетвером и на каких условиях, уточню при бронировании.</p>
+        <div><span class="chip">средний счёт 5 000–6 000 ₽</span><span class="chip" style="color:var(--danger)">на 4 с чаевыми 22–26 000 ₽ — впритык</span><span class="chip">Я.Карты 4,7 · 2 365 оценок</span></div>
+        <ul>
+          <li><b>Бронь:</b> форма «Резерв стола» на сайте или телефон. Прошу тихий стол в стороне от потока либо Винотеку, если её дают маленькой компании без депозита, и уточняю, не будет ли шоу-программы или банкета.</li>
+          <li><b>Риск:</b> с вином легко выйти за бюджет — предупрежу руководителя заранее.</li>
+        </ul>
+        <p class="small muted" style="margin:10px 0 0">Источник: <a href="https://yandex.ru/maps/org/palkin/1046850354/" target="_blank" rel="noopener">Яндекс Карты</a>; kuda-spb.ru называет около 4 950 ₽</p>
+      </div>
+    </div>
+    <div class="card" data-reveal style="margin-top:16px">
+      <h3 style="font-size:20px">Запасной вариант: «Мансарда»</h3>
+      <p class="small" style="margin:6px 0 0">Почтамтская ул., 3–5, 6-й этаж БЦ Quattro Corti · <a href="https://ginza.ru/spb/restaurant/mansarda" target="_blank" rel="noopener">ginza.ru</a> · +7 (812) 640-16-16. Панорамный ресторан с видом на Исаакий, рейтинг 4,8 (7 666 оценок), средний счёт 3 300–3 800 ₽ по Яндекс Картам. Красиво и престижно, но вечером многолюдно, после 18:00 дресс-код. Беру, только если в первых двух не будет мест.</p>
+    </div>
+
+    <div class="tbl" data-reveal>
+    <table>
+      <thead><tr><th>Ресторан</th><th>Район</th><th>Чек на чел.</th><th>Итог на 4</th><th>Тишина / кабинет</th><th>Рейтинг</th><th>Риски</th></tr></thead>
+      <tbody>
+        <tr class="hi"><td><b>Северянин</b></td><td>Столярный пер., у Сенной</td><td>2 500–2 900 ₽</td><td>до ~18 000 ₽</td><td>камерные комнаты, тихо; малый зал только по депозиту</td><td>4,7</td><td>выходной в пн; маленький — бронировать заранее; специфичная кухня</td></tr>
+        <tr><td>Палкинъ</td><td>Невский, 47</td><td>5 000–6 000 ₽</td><td>22–26 000 ₽</td><td>солидно и спокойно; Каминный зал / Винотека — условия уточню</td><td>4,7</td><td>на грани бюджета; возможны банкеты и шоу</td></tr>
+        <tr><td>Мансарда (запас)</td><td>Почтамтская, у Исаакия</td><td>3 300–3 800 ₽</td><td>~20–22 000 ₽</td><td>вечером многолюдно, кабинета на сайте нет</td><td>4,8</td><td>шумнее; дресс-код; источники по чеку расходятся</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="small muted">Итоговые суммы на четверых — моя оценка (еда по среднему счёту + вино + чаевые 10 %), а не цифры из источников. Для сравнения проверял «КоКоКо» на Вознесенском — на Яндекс Картах помечен «Больше не работает», в список не вошёл.</p>
+
+    <div class="callout" data-reveal>
+      <div class="q">Почему «Северянин»</div>
+      Самое тихое место из трёх: несколько небольших комнат вместо одного большого зала, отзывы почти единогласно хвалят атмосферу, и ресторан прямо позиционирует себя как место для важных встреч. По деньгам остаётся запас около 7 тыс. ₽, так что гости спокойно закажут вино, а руководителю не придётся следить за счётом. Если гости очень статусные и нужен «парадный» Петербург — беру «Палкинъ», но заранее предупреждаю, что с вином счёт может дойти до 25 тыс. ₽ и выше.
+    </div>
+
+    <div class="grid g2">
+      <div data-reveal>
+        <div class="sub-h" style="margin-top:10px">Что уточню у руководителя</div>
+        <ol class="steps">
+          <li><span>Точная дата и время? Если понедельник — «Северянин» не работает, сразу беру «Палкинъ».</span></li>
+          <li><span>Кто гости: партнёры, инвесторы, поставщики? Насколько важно произвести впечатление?</span></li>
+          <li><span>Ограничения по еде: аллергии, пост, халяль, вегетарианцы? Не против ли гости русской кухни с дичью и рыбой?</span></li>
+          <li><span>Хватит ли тихого стола или нужен отдельный кабинет, даже если это выйдет за бюджет?</span></li>
+          <li><span>Где живут или работают гости — нужен ли ресторан ближе к отелю или офису?</span></li>
+          <li><span>Будут ли пить и сколько — от этого зависит, хватит ли 25 000 ₽ в «Палкине».</span></li>
+          <li><span>Как платим: карта руководителя или счёт на ИП, нужны ли чек и закрывающие документы?</span></li>
+          <li><span>Нужны ли такси или трансфер для гостей, есть ли повод (подписание, знакомство), дресс-код?</span></li>
+        </ol>
+      </div>
+      <div data-reveal>
+        <div class="sub-h" style="margin-top:10px">Как довожу до результата</div>
+        <ol class="steps">
+          <li><span>Получаю ответы и сразу бронирую выбранный ресторан, запасной держу на случай отказа.</span></li>
+          <li><span>При бронировании прошу тихий стол или кабинет, сообщаю об ограничениях по еде, уточняю музыку и банкеты в этот вечер.</span></li>
+          <li><span>Прошу письменное подтверждение брони и сохраняю его.</span></li>
+          <li><span>За день перезваниваю, подтверждаю бронь и отправляю руководителю памятку: время, адрес, вход, как доехать, парковка, кто гости.</span></li>
+          <li><span>В день ужина за 2–3 часа проверяю, что всё в силе; если сорвалось — переношу на запасной и сообщаю руководителю.</span></li>
+          <li><span>После ужина забираю чек и закрывающие документы для бухгалтерии.</span></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ЗАДАНИЕ 5 ============ -->
+<section class="task" id="t5">
+  <div class="wrap">
+    <div class="task-head" data-reveal>
+      <div class="num">5</div>
+      <div>
+        <h2>Самостоятельность</h2>
+        <p class="brief"><b>Ситуация:</b> руководитель дал задачу, но не объяснил, как её выполнить. Он занят и не отвечает уже 4 часа.</p>
+      </div>
+    </div>
+    <div class="grid g2">
+      <div class="callout" data-reveal style="margin:0">
+        <p>Сначала я сам себе в двух строках записываю, как понял задачу и какой результат должен получиться. Потом ищу ответ там, где он может уже быть: в похожих прошлых задачах, в таблицах, в переписке с подрядчиками. Ждать четыре часа без дела не буду — начинаю черновик по самому вероятному варианту, но не делаю ничего, что потом нельзя отменить: не плачу, не подтверждаю заказ, не отправляю ничего от имени руководителя.</p>
+        <p>Руководителю пишу коротко: понял так, делаю так, если не так — поправьте, и задаю один вопрос, без которого правда не обойтись, а не десять. Когда он освободится, у него уже будет готовый вариант или два на выбор, и ему останется сказать «да» или «вот этот». Договорённость записываю, чтобы в следующий раз такую задачу сделать без вопросов.</p>
+      </div>
+      <div data-reveal>
+        <p class="small muted">Сообщение руководителю в такой ситуации</p>
+        <div class="chat"><div class="bubble me"><div class="who">Я → руководителю</div><p>Понял задачу так: [результат] к [сроку]. Делаю по аналогии с [прошлым похожим случаем], к [времени] покажу черновик.</p><p>Один вопрос: [конкретный вопрос]? Если не ответите — сделаю вариант А, его легко поменять.</p><p>Если понял не так — просто поправьте, переделаю.</p></div></div>
+        <ol class="steps" style="margin-top:18px">
+          <li><span><b>Понял</b> — записал задачу и результат своими словами</span></li>
+          <li><span><b>Собрал контекст</b> — прошлые задачи, таблицы, переписка</span></li>
+          <li><span><b>Начал</b> — черновик по вероятному варианту, без необратимых действий</span></li>
+          <li><span><b>Показал</b> — один вопрос, готовый вариант к моменту, когда он освободится</span></li>
+          <li><span><b>Зафиксировал</b> — чтобы в следующий раз не спрашивать</span></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ КАК Я РАБОТАЛ ============ -->
+<section class="task" id="how">
+  <div class="wrap">
+    <div class="task-head" data-reveal>
+      <div class="num">+</div>
+      <div>
+        <h2>Как я работал над заданием</h2>
+        <p class="brief">Коротко о процессе — потому что вы просили показать не только результат.</p>
+      </div>
+    </div>
+    <div class="process" data-reveal>
+      <div><b>1. Разобрал, что оценивают</b>В письме сказано прямо: логика, инициатива, внимание к деталям, доведение до результата. Поэтому в каждой задаче — не только ответ, но и как я к нему пришёл, что бы уточнил и что сделал бы дальше.</div>
+      <div><b>2. Искал и проверял сам</b>Дизайнеры — Behance и dprofile, рестораны — Яндекс Карты, Restoclub и сайты ресторанов. Каждую ссылку открыл, цены и чеки взял только из открытых источников и подписал, откуда они.</div>
+      <div><b>3. Работал в связке с ИИ</b>Черновики текстов, структуру и сравнение кандидатов собирал с ИИ-ассистентом (Claude) — так же, как делаю таблицы и напоминания в работе. Факты, ссылки и выводы проверял и принимал сам: ответственность за результат моя, а не инструмента.</div>
+      <div><b>4. Собрал в двух форматах</b>Google-документ — как просили. Эта страница — моя инициатива: её удобно открыть с телефона, показать на созвоне и распечатать. Такую же «витрину» можно делать для презентации линеек партнёрам.</div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    Фёдор Поплавский · тестовое задание для Aorens · 19 октября 2026. Все ссылки проверены в день сдачи; цены и средние чеки — из открытых источников, они указаны рядом с цифрами.
+  </div>
+</footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Просмотр изображения"><button class="x" type="button" aria-label="Закрыть">×</button><figure><img alt=""><figcaption></figcaption></figure></div>
+<script>
+(function(){
+  // lightbox
+  var lb=document.getElementById('lb'),lbi=lb.querySelector('img'),lbc=lb.querySelector('figcaption');
+  document.querySelectorAll('.thumb img').forEach(function(im){
+    im.addEventListener('click',function(){
+      var card=im.closest('.card'),src=card?card.querySelector('.meta a[href^="http"]'):null;
+      lbi.src=im.src;lbi.alt=im.alt;
+      lbc.innerHTML=im.alt+(src?' · <a href="'+src.href+'" target="_blank" rel="noopener">источник</a>':'');
+      lb.classList.add('open');document.body.style.overflow='hidden';
+    });
+  });
+  function close(){lb.classList.remove('open');document.body.style.overflow='';}
+  lb.addEventListener('click',function(e){if(e.target.tagName!=='A')close();});
+  addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+  // theme
+  var root=document.documentElement,btn=document.getElementById('themeBtn');
+  try{var s=localStorage.getItem('aorens-theme');if(s)root.setAttribute('data-theme',s);}catch(e){}
+  btn.addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme');
+    var dark=cur==='dark'||(cur!=='light'&&matchMedia('(prefers-color-scheme:dark)').matches);
+    var next=dark?'light':'dark';root.setAttribute('data-theme',next);
+    try{localStorage.setItem('aorens-theme',next);}catch(e){}
+  });
+  // reveal
+  if('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion:reduce)').matches){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('[data-reveal]').forEach(function(el){io.observe(el);});
+    // страховка: если наблюдатель не сработал (фоновая вкладка, печать), показать всё
+    var showAll=function(){document.querySelectorAll('[data-reveal]:not(.in)').forEach(function(el){el.classList.add('in');});};
+    setTimeout(showAll,1200);
+    addEventListener('scroll',function f(){setTimeout(showAll,700);removeEventListener('scroll',f);},{passive:true});
+    addEventListener('beforeprint',function(){document.querySelectorAll('[data-reveal]').forEach(function(el){el.classList.add('in');});});
+  }else{document.querySelectorAll('[data-reveal]').forEach(function(el){el.classList.add('in');});}
+  // nav active
+  var pills=document.querySelectorAll('nav.top a.pill'),secs=[];
+  pills.forEach(function(p){var s=document.querySelector(p.getAttribute('href'));if(s)secs.push([s,p]);});
+  function act(){var y=scrollY+120,cur=null;secs.forEach(function(x){if(x[0].offsetTop<=y)cur=x[1];});pills.forEach(function(p){p.classList.toggle('active',p===cur);});}
+  addEventListener('scroll',act,{passive:true});act();
+  // board
+  var board=document.getElementById('board'),status=document.getElementById('boardStatus');
+  var filter='all';
+  function render(){
+    var left=0,total=0;
+    board.querySelectorAll('.tk').forEach(function(t){
+      var done=t.querySelector('input').checked;t.classList.toggle('done',done);
+      var show=filter==='all'||t.dataset.when===filter||(filter==='week');
+      if(filter==='tomorrow')show=t.dataset.when==='tomorrow';
+      if(filter==='today')show=t.dataset.when==='today';
+      t.classList.toggle('hidden',!show);
+      if(show){total++;if(!done)left++;}
+    });
+    var urgent=board.querySelector('.tk:not(.hidden):not(.done) .due b');
+    status.textContent=left?('Осталось '+left+' из '+total+'. Ближайший срок: '+urgent.textContent+'.'):'Всё закрыто. Можно писать руководителю сводку.';
+  }
+  board.addEventListener('change',render);
+  document.querySelectorAll('.board-tools button').forEach(function(b){b.addEventListener('click',function(){filter=b.dataset.f;document.querySelectorAll('.board-tools button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});render();});});
+  render();
+})();
+</script>
+</body>
+</html>
